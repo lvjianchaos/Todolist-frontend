@@ -1,0 +1,24 @@
+@use 'sass:color';
+
+$primary: #722ED1;
+
+// 仅暗黑模式：Element Plus 暗黑变量 + 紫色主色覆盖
+html.dark {
+  --el-color-primary: #{$primary};
+  --el-color-primary-dark-2: #{color.mix(#000, $primary, 20%)};
+
+  /* 暗黑模式下的 light 色阶不应接近白色；与暗黑背景混合得到“带紫色倾向”的深色层 */
+  --el-color-primary-light-3: color-mix(in srgb, var(--el-color-primary) 44%, var(--el-bg-color));
+  --el-color-primary-light-5: color-mix(in srgb, var(--el-color-primary) 32%, var(--el-bg-color));
+  --el-color-primary-light-7: color-mix(in srgb, var(--el-color-primary) 22%, var(--el-bg-color));
+  --el-color-primary-light-8: color-mix(in srgb, var(--el-color-primary) 16%, var(--el-bg-color));
+  --el-color-primary-light-9: color-mix(in srgb, var(--el-color-primary) 10%, var(--el-bg-color));
+
+  background: var(--el-bg-color);
+  color: var(--el-text-color-primary);
+}
+
+html.dark body {
+  background: var(--el-bg-color);
+  color: var(--el-text-color-primary);
+}

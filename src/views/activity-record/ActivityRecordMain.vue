@@ -1,11 +1,10 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 
 </script>
 
 <template>
-  <router-view />
+  <el-main>Activity Record Main</el-main>
 </template>
 
 <style lang="scss" scoped>
-
 </style>
