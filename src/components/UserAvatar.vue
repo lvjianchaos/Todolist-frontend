@@ -54,8 +54,10 @@ async function handleCommand(command: DropdownCommand): Promise<void> {
 						</div>
 					</div>
 				</el-dropdown-item>
-
-				<el-dropdown-item command="logout">退出登录</el-dropdown-item>
+				<el-dropdown-item divided command="logout" class="logout-item">
+					<el-icon class="logout-item__icon"><IEpSwitchButton /></el-icon>
+					<span>退出登录</span>
+				</el-dropdown-item>
 			</el-dropdown-menu>
 		</template>
 	</el-dropdown>
@@ -89,7 +91,7 @@ async function handleCommand(command: DropdownCommand): Promise<void> {
 }
 
 .user-dropdown {
-	min-width: 220px;
+	min-width: 180px;
 }
 
 .user-row {
@@ -127,5 +129,15 @@ async function handleCommand(command: DropdownCommand): Promise<void> {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
+}
+
+.logout-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.logout-item__icon {
+	color: var(--el-color-danger);
 }
 </style>

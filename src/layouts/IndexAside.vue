@@ -347,8 +347,8 @@ function confirmCreateGroup(): void {
 <template>
   <el-aside>
     <div class="title" role="button" tabindex="0" @click="goHome" @keyup.enter.space="goHome">
-      <el-icon size="larger"><IEpCircleCheck /></el-icon>
-      <span>任务</span>
+      <el-icon size="larger"><IEpOdometer /></el-icon>
+      <span>智能任务</span>
     </div>
 
     <el-menu
@@ -541,6 +541,11 @@ function confirmCreateGroup(): void {
     cursor: pointer;
     user-select: none;
     color: var(--el-text-color-regular);
+    transition:
+      transform 180ms ease,
+      text-shadow 180ms ease,
+      filter 180ms ease;
+    transform-origin: left center;
     text-shadow:
       0 0 6px color-mix(in srgb, var(--el-color-white) 40%, transparent),
       0 0 14px color-mix(in srgb, var(--el-color-white) 20%, transparent);
@@ -549,6 +554,34 @@ function confirmCreateGroup(): void {
       filter:
         drop-shadow(0 0 6px color-mix(in srgb, var(--el-color-white) 35%, transparent))
         drop-shadow(0 0 14px color-mix(in srgb, var(--el-color-white) 18%, transparent));
+      transition: filter 180ms ease, transform 180ms ease;
+    }
+
+    &:hover {
+      transform: scale(1.04);
+      text-shadow:
+        0 0 10px color-mix(in srgb, var(--el-color-white) 55%, transparent),
+        0 0 22px color-mix(in srgb, var(--el-color-white) 35%, transparent);
+
+      :deep(.el-icon) {
+        filter:
+          drop-shadow(0 0 10px color-mix(in srgb, var(--el-color-white) 50%, transparent))
+          drop-shadow(0 0 22px color-mix(in srgb, var(--el-color-white) 30%, transparent));
+        transform: scale(1.06);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+      :deep(.el-icon) {
+        transition: none;
+      }
+      &:hover {
+        transform: none;
+        :deep(.el-icon) {
+          transform: none;
+        }
+      }
     }
 
     &:focus-visible {
@@ -617,7 +650,7 @@ function confirmCreateGroup(): void {
     text-overflow: ellipsis;
     white-space: nowrap;
     font-size: 15px;
-    font-weight: 700;
+    font-weight: 500;
   }
 
   .draggable-group-container,
@@ -656,7 +689,7 @@ function confirmCreateGroup(): void {
   }
 
   .list-leading-icon {
-    color: var(--el-text-color-secondary);
+    color: currentColor;
     flex: 0 0 auto;
   }
 
