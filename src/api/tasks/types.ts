@@ -100,5 +100,15 @@ export type TasksData = TaskDto[] | { tasks: TaskDto[] } | { list: TaskDto[] }
 
 export type TaskFilter = 'all' | 'todo' | 'done'
 
-export type TaskSortKey = 'custom' | 'startedAt' | 'dueAt' | 'createdAt' | 'updatedAt' | 'completedAt'
+export type TaskSortKey = 'custom' | 'startedAt' | 'dueAt' | 'createdAt' | 'updatedAt' | 'completedAt' | 'priority'
 export type SortDir = 'asc' | 'desc'
+
+export type FetchMyRootTasksParams = {
+  // 后端从 token 解析用户；允许透传 userId 仅作为兼容/调试
+  userId?: number | string
+  // 后端约定：根任务 parentId = 0
+  parentId?: number
+  filter?: TaskFilter
+  sortKey?: TaskSortKey
+  sortDir?: SortDir
+}

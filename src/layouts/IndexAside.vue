@@ -32,12 +32,12 @@ const listActiveIndex = computed<string>(() => {
 })
 
 // 菜单展开/收起事件
-const handleOpen = (key: string, keyPath: string[]) => {
-  ElMessage.info(`open: ${key}, ${keyPath}`)
-}
-const handleClose = (key: string, keyPath: string[]) => {
-  ElMessage.info(`close: ${key}, ${keyPath}`)
-}
+// const handleOpen = (key: string, keyPath: string[]) => {
+//   // ElMessage.info(`open: ${key}, ${keyPath}`)
+// }
+// const handleClose = (key: string, keyPath: string[]) => {
+//   // ElMessage.info(`close: ${key}, ${keyPath}`)
+// }
 
 // 菜单选择事件
 function handleSelect(index: string): void {
@@ -51,10 +51,6 @@ function handleSelect(index: string): void {
   }
 }
 
-// 回到首页
-async function goHome(): Promise<void> {
-  await router.push('/')
-}
 
 
 
@@ -346,7 +342,7 @@ function confirmCreateGroup(): void {
 
 <template>
   <el-aside>
-    <div class="title" role="button" tabindex="0" @click="goHome" @keyup.enter.space="goHome">
+    <div class="title">
       <el-icon size="larger"><IEpOdometer /></el-icon>
       <span>智能任务</span>
     </div>

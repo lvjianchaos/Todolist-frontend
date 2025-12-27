@@ -1,10 +1,19 @@
 import request from '@/utils/request'
 import type { Result } from '@/api/types'
-import type { CreateTaskDto, MoveTaskDto, PatchTaskDto, ReorderTasksDto, TaskDto, TasksData } from './types'
+import type {
+  CreateTaskDto,
+  FetchMyRootTasksParams,
+  MoveTaskDto,
+  PatchTaskDto,
+  ReorderTasksDto,
+  TaskDto,
+  TasksData,
+} from './types'
 
 const ENDPOINTS = {
   tasks: '/task/tasks',
   reorder: '/task/tasks/sort-order',
+  root: '/task/tasks/root',
 } as const
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -34,6 +43,25 @@ export async function fetchTasks(params: {
       listId: params.listId,
       taskGroupId: params.taskGroupId,
       parentId: params.parentId,
+    },
+  })
+  if (!response.data.success) {
+    throw new Error(response.data.message || '获取任务失败')
+  }
+  const extracted = extractTasksData(response.data.data)
+  if (!extracted) {
+    throw new Error('获取任务失败：返回数据格式不正确')
+  }
+  return extracted
+}
+
+export async function fetchMyRootTasks(params: FetchMyRootTasksParams = {}): Promise<TaskDto[]> {
+  const response = await request.get<Result<TasksData>>(ENDPOINTS.root, {
+    params: {
+      parentId: params.parentId ?? 0,
+      filter: params.filter,
+      sortKey: params.sortKey,
+      sortDir: params.sortDir,
     },
   })
   if (!response.data.success) {

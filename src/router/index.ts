@@ -16,14 +16,13 @@ const router = createRouter({
     },
     {
       path: '/',
+      redirect: '/all-task',
+    },
+    {
+      path: '/',
       component: IndexLayout,
       meta: { requiresAuth: true },
       children: [
-        {
-          path: '',
-          name: 'home',
-          component: () => import('@/views/home/HomeLayout.vue')
-        },
         {
           path: 'all-task',
           component: () => import('@/views/all-task/AllTaskLayout.vue')

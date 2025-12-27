@@ -396,11 +396,11 @@ function isOverdue(task: TaskDto): boolean {
   return dueDate < todayStr
 }
 
-function compareNullableString(a: string | null, b: string | null): number {
+function compareNullableStringNullLastWithDir(a: string | null, b: string | null, dir: 1 | -1): number {
   if (a == null && b == null) return 0
   if (a == null) return 1
   if (b == null) return -1
-  return a.localeCompare(b)
+  return a.localeCompare(b) * dir
 }
 
 function sortTasksForView(tasks: TaskDto[]): TaskDto[] {
@@ -418,13 +418,14 @@ function sortTasksForView(tasks: TaskDto[]): TaskDto[] {
     .slice()
     .sort((a, b) => {
       let cmp = 0
-      if (key === 'startedAt') cmp = compareNullableString(a.startedAt, b.startedAt)
-      if (key === 'dueAt') cmp = compareNullableString(a.dueAt, b.dueAt)
-      if (key === 'createdAt') cmp = a.createdAt.localeCompare(b.createdAt)
-      if (key === 'updatedAt') cmp = a.updatedAt.localeCompare(b.updatedAt)
-      if (key === 'completedAt') cmp = compareNullableString(a.completedAt, b.completedAt)
+      if (key === 'priority') cmp = (a.priority - b.priority) * dir
+      if (key === 'startedAt') cmp = compareNullableStringNullLastWithDir(a.startedAt, b.startedAt, dir)
+      if (key === 'dueAt') cmp = compareNullableStringNullLastWithDir(a.dueAt, b.dueAt, dir)
+      if (key === 'createdAt') cmp = a.createdAt.localeCompare(b.createdAt) * dir
+      if (key === 'updatedAt') cmp = a.updatedAt.localeCompare(b.updatedAt) * dir
+      if (key === 'completedAt') cmp = compareNullableStringNullLastWithDir(a.completedAt, b.completedAt, dir)
       if (cmp === 0) cmp = a.sortOrder - b.sortOrder
-      return cmp * dir
+      return cmp
     })
 }
 
@@ -1064,6 +1065,7 @@ watch(
           <el-button text class="toolbar-btn">
             <span>排序：</span>
             <span v-if="sortKey === 'custom'">拖拽自定义</span>
+            <span v-else-if="sortKey === 'priority'">优先级</span>
             <span v-else-if="sortKey === 'startedAt'">开始时间</span>
             <span v-else-if="sortKey === 'dueAt'">截止时间</span>
             <span v-else-if="sortKey === 'createdAt'">创建时间</span>
@@ -1077,6 +1079,7 @@ watch(
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="custom">拖拽自定义</el-dropdown-item>
+              <el-dropdown-item command="priority">优先级</el-dropdown-item>
               <el-dropdown-item command="startedAt">开始时间</el-dropdown-item>
               <el-dropdown-item command="dueAt">截止时间</el-dropdown-item>
               <el-dropdown-item command="createdAt">创建时间</el-dropdown-item>
@@ -1333,7 +1336,7 @@ watch(
         <div class="drawer__header">
           <div class="drawer__title-area" @click.stop>
             <div class="drawer__title" role="heading" aria-level="2">
-              <el-icon class="drawer__title-icon"><IEpDocument /></el-icon>
+              <el-icon class="drawer__title-icon"><IEpFinished /></el-icon>
               <span class="drawer__title-text">{{ drawerTask.name }}</span>
             </div>
           </div>
@@ -1520,8 +1523,8 @@ watch(
 .table__header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 10px;
+  gap: 6px;
+  padding: 10px 0px 6px 10px;
   color: var(--el-text-color-secondary);
   font-size: 12px;
 }
@@ -1656,6 +1659,11 @@ watch(
   min-width: 0;
 }
 
+.table__header .col-title {
+  /* 对齐任务行中：checkbox + 展开按钮(或占位) + gap */
+  padding-left: 48px;
+}
+
 .col-date {
   width: 140px;
   display: flex;
@@ -1678,7 +1686,7 @@ watch(
   display: flex;
   align-items: center;
   gap: 8px;
-  min-width: 0;
+  min-width: 10;
 }
 
 .task__check {
