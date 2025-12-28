@@ -31,13 +31,6 @@ const listActiveIndex = computed<string>(() => {
   return id ? `list-${id}` : ''
 })
 
-// 菜单展开/收起事件
-// const handleOpen = (key: string, keyPath: string[]) => {
-//   // ElMessage.info(`open: ${key}, ${keyPath}`)
-// }
-// const handleClose = (key: string, keyPath: string[]) => {
-//   // ElMessage.info(`close: ${key}, ${keyPath}`)
-// }
 
 // 菜单选择事件
 function handleSelect(index: string): void {
@@ -350,8 +343,6 @@ function confirmCreateGroup(): void {
     <el-menu
       class="el-menu-vertical"
       :default-active="topActiveIndex"
-      @open="handleOpen"
-      @close="handleClose"
       @select="handleSelect"
     >
       <el-menu-item index="1">

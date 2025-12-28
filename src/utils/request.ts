@@ -37,7 +37,6 @@ function handleUnauthorized(): void {
 
 const request = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,
-  timeout: 5000,
 })
 
 // 请求拦截器

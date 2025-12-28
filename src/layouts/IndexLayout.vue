@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import MainAside from './IndexAside.vue';
+import AiAgentWidget from '@/components/AiAgentWidget.vue'
 
 </script>
 
@@ -9,6 +10,7 @@ import MainAside from './IndexAside.vue';
       <MainAside />
       <el-container class="layout-content">
         <router-view />
+        <AiAgentWidget />
       </el-container>
     </el-container>
   </div>
